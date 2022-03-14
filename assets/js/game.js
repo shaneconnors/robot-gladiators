@@ -75,46 +75,48 @@ var startGame = function() {
 
   // other game logic...
 
-// fight each enemy-robot by looping over them and fighting them one at a time
-for (var i = 0; i < enemyInfo.length; i++) {
-  // if player is still alive, keep fighting
-  if (playerInfo.health > 0) {
-    // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
-    window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+  // fight each enemy-robot by looping over them and fighting them one at a time
+  for (var i = 0; i < enemyInfo.length; i++) {
+    // if player is still alive, keep fighting
+    if (playerInfo.health > 0) {
+      // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
+      window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+      debugger;
 
-    // pick new enemy to fight based on the index of the enemy.names array
-    var pickedEnemyObj = enemyInfo[i];
+      // pick new enemy to fight based on the index of the enemy.names array
+      var pickedEnemyObj = enemyInfo[i];
 
-    // reset enemy.health before starting new fight
-    pickedEnemyObj.health = randomNumber(40, 60);
+      // reset enemy.health before starting new fight
+      pickedEnemyObj.health = randomNumber(40, 60);
 
-    // use debugger to pause script from running and check what's going on at that moment in the code
-    // debugger;
+      // use debugger to pause script from running and check what's going on at that moment in the code
+      // debugger;
 
-    // pass the pickedenemy.name variable's value into the fight function, where it will assume the value of the enemy.name parameter
-    fight(pickedEnemyObj);
+      // pass the pickedenemy.name variable's value into the fight function, where it will assume the value of the enemy.name parameter
+      fight(pickedEnemyObj);
 
-    // if we're not at the last enemy in the array
-    if (playerInfo.health > 0 && i <enemyInfo.length  - 1) {
+      // if we're not at the last enemy in the array
+      if (playerInfo.health > 0 && i <enemyInfo.length  - 1) {
        // ask if player wants to use the store before next round
-  var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+       var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
 
-  // if yes, take them to the store() function
-  if (storeConfirm) 
-      shop();
+       // if yes, take them to the store() function
+        if (storeConfirm) {
+         shop();
+        }
+      }
+    }
+    // if player isn't alive, stop the game
+    else {
+      window.alert('You have lost your robot in battle! Game Over!');
+      break;
     }
   }
-  // if player isn't alive, stop the game
-  else {
-    window.alert('You have lost your robot in battle! Game Over!');
-    break;
-  }
-}
- //play again
- //startGame();
 
-
+  // after loop ends, we are either out of player.health or enemies to fight, so run the endGame function
+  endGame();
 };
+
 
 function playAgain(){
 // ask player if they'd like to play again
@@ -179,8 +181,20 @@ var randomNumber = function(min, max) {
   return value;
 };
 
+// function to set name
+var getPlayerName = function() {
+  var name = "";
+
+  while (name === "" || name === null) {
+    name = prompt("What is your robot's name?");
+  }
+
+  console.log("Your robot's name is " + name);
+  return name;
+};
+
 var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
+  name: getPlayerName(),
   health: 100,
   attack: 10,
   money: 10,
